@@ -40,6 +40,10 @@ func Test_http_lib(t *testing.T) {
 }
 ```
 
+## See also
+
+- https://github.com/vcr/vcr - go-http-replay is heavily inspired from this project
+
 ## Author
 
 - aereal
