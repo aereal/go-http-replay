@@ -1,5 +1,7 @@
 # go-http-replay
 
+Record and replay HTTP response for testing
+
 ## Synopsis
 
 Replay HTTP response or fetch from the remote:
