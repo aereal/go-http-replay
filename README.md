@@ -20,7 +20,7 @@ import (
 
 func Test_http_lib(t *testing.T) {
 	httpClient := &http.Client{
-		Transport: httpreplay.NewReplayOrFetchTransport("./testdata"),
+		Transport: httpreplay.NewReplayOrFetchTransport("./testdata", http.DefaultClient),
 	}
 	// httpClient will behave like the client that created from NewReplayTransport but DO actual request if local cache is missing.
 }
