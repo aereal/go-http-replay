@@ -20,9 +20,9 @@ import (
 
 func Test_http_lib(t *testing.T) {
 	httpClient := &http.Client{
-		Transport: httpreplay.NewReplayOrRoundTripper("./testdata"),
+		Transport: httpreplay.NewReplayOrFetchTransport("./testdata"),
 	}
-	// httpClient will behave like the client that created from NewReplayRoundTripper but DO actual request if local cache is missing.
+	// httpClient will behave like the client that created from NewReplayTransport but DO actual request if local cache is missing.
 }
 ```
 
@@ -38,7 +38,7 @@ import (
 
 func Test_http_lib(t *testing.T) {
 	httpClient := &http.Client{
-		Transport: httpreplay.NewReplayRoundTripper("./testdata"),
+		Transport: httpreplay.NewReplayTransport("./testdata"),
 	}
 	// httpClient will not do actual request to remote sites but returns the response from local cache files.
 }
