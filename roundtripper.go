@@ -1,3 +1,4 @@
+// Package httpreplay is for stubbing HTTP requests/responses
 package httpreplay
 
 import (
@@ -11,17 +12,20 @@ import (
 	"path/filepath"
 )
 
+// NewReplayOrFetchRoundTripper returns new http.RoundTripper that replays HTTP response local cache.
+// If the cache is not available, do actual request and record the response to local cache.
 func NewReplayOrFetchRoundTripper(dataDir string, httpClient *http.Client) http.RoundTripper {
 	return newReplayMiddleware(dataDir)(newFetchMiddleware(dataDir, httpClient)(notHandledTripper))
 }
 
+// NewReplayRoundTripper returns new http.RoundTripper that only replays HTTP response from local cache, do not request actually.
 func NewReplayRoundTripper(dataDir string) http.RoundTripper {
 	return newReplayMiddleware(dataDir)(notHandledTripper)
 }
 
-func newFetchMiddleware(dataDir string, httpClient *http.Client) Middleware {
-	return Middleware(func(next RoundTripperFunc) RoundTripperFunc {
-		return RoundTripperFunc(func(req *http.Request) (*http.Response, error) {
+func newFetchMiddleware(dataDir string, httpClient *http.Client) roundTripperHandler {
+	return roundTripperHandler(func(next roundTripperFunc) roundTripperFunc {
+		return roundTripperFunc(func(req *http.Request) (*http.Response, error) {
 			resp, err := httpClient.Do(req)
 			if err != nil {
 				return next.RoundTrip(req)
@@ -46,9 +50,9 @@ func newFetchMiddleware(dataDir string, httpClient *http.Client) Middleware {
 	})
 }
 
-func newReplayMiddleware(dataDir string) Middleware {
-	return Middleware(func(next RoundTripperFunc) RoundTripperFunc {
-		return RoundTripperFunc(func(req *http.Request) (*http.Response, error) {
+func newReplayMiddleware(dataDir string) roundTripperHandler {
+	return roundTripperHandler(func(next roundTripperFunc) roundTripperFunc {
+		return roundTripperFunc(func(req *http.Request) (*http.Response, error) {
 			f, err := os.Open(getReplayFilePath(dataDir, req))
 			if err != nil {
 				return next.RoundTrip(req)

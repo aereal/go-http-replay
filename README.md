@@ -1,3 +1,6 @@
+[![MIT License](http://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)][license]
+[![GoDoc](https://godoc.org/github.com/aereal/go-http-replay?status.svg)][godoc]
+
 # go-http-replay
 
 Record and replay HTTP response for testing
@@ -47,3 +50,6 @@ func Test_http_lib(t *testing.T) {
 ## Author
 
 - aereal
+
+[license]: https://github.com/aereal/go-http-replay/blob/master/LICENSE
+[godoc]: https://godoc.org/github.com/aereal/go-http-replay
