@@ -12,20 +12,20 @@ import (
 	"path/filepath"
 )
 
-// NewReplayOrFetchRoundTripper returns new http.RoundTripper that replays HTTP response local cache.
+// NewReplayOrFetchTransport returns new http.RoundTripper that replays HTTP response local cache.
 // If the cache is not available, do actual request and record the response to local cache.
-func NewReplayOrFetchRoundTripper(dataDir string, httpClient *http.Client) http.RoundTripper {
-	return newReplayMiddleware(dataDir)(newFetchMiddleware(dataDir, httpClient)(notHandledTripper))
+func NewReplayOrFetchTransport(dataDir string, httpClient *http.Client) http.RoundTripper {
+	return newReplayHandler(dataDir)(newFetchHandler(dataDir, httpClient)(notHandledTransport))
 }
 
-// NewReplayRoundTripper returns new http.RoundTripper that only replays HTTP response from local cache, do not request actually.
-func NewReplayRoundTripper(dataDir string) http.RoundTripper {
-	return newReplayMiddleware(dataDir)(notHandledTripper)
+// NewReplayTransport returns new http.RoundTripper that only replays HTTP response from local cache, do not request actually.
+func NewReplayTransport(dataDir string) http.RoundTripper {
+	return newReplayHandler(dataDir)(notHandledTransport)
 }
 
-func newFetchMiddleware(dataDir string, httpClient *http.Client) roundTripperHandler {
-	return roundTripperHandler(func(next roundTripperFunc) roundTripperFunc {
-		return roundTripperFunc(func(req *http.Request) (*http.Response, error) {
+func newFetchHandler(dataDir string, httpClient *http.Client) transportHandler {
+	return transportHandler(func(next transportFunc) transportFunc {
+		return transportFunc(func(req *http.Request) (*http.Response, error) {
 			resp, err := httpClient.Do(req)
 			if err != nil {
 				return next.RoundTrip(req)
@@ -50,9 +50,9 @@ func newFetchMiddleware(dataDir string, httpClient *http.Client) roundTripperHan
 	})
 }
 
-func newReplayMiddleware(dataDir string) roundTripperHandler {
-	return roundTripperHandler(func(next roundTripperFunc) roundTripperFunc {
-		return roundTripperFunc(func(req *http.Request) (*http.Response, error) {
+func newReplayHandler(dataDir string) transportHandler {
+	return transportHandler(func(next transportFunc) transportFunc {
+		return transportFunc(func(req *http.Request) (*http.Response, error) {
 			f, err := os.Open(getReplayFilePath(dataDir, req))
 			if err != nil {
 				return next.RoundTrip(req)

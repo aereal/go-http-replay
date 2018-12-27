@@ -5,15 +5,15 @@ import (
 	"net/http"
 )
 
-type roundTripperHandler func(h roundTripperFunc) roundTripperFunc
+type transportHandler func(h transportFunc) transportFunc
 
-type roundTripperFunc func(req *http.Request) (*http.Response, error)
+type transportFunc func(req *http.Request) (*http.Response, error)
 
-func (f roundTripperFunc) RoundTrip(req *http.Request) (*http.Response, error) {
+func (f transportFunc) RoundTrip(req *http.Request) (*http.Response, error) {
 	return f(req)
 }
 
-var notHandledTripper = roundTripperFunc(func(req *http.Request) (*http.Response, error) {
+var notHandledTransport = transportFunc(func(req *http.Request) (*http.Response, error) {
 	return &http.Response{
 		Proto:      "HTTP/1.1",
 		ProtoMajor: 1,
