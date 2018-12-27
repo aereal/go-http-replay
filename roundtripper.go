@@ -1,3 +1,4 @@
+// Package httpreplay is for stubbing HTTP requests/responses
 package httpreplay
 
 import (
@@ -11,10 +12,13 @@ import (
 	"path/filepath"
 )
 
+// NewReplayOrFetchRoundTripper returns new http.RoundTripper that replays HTTP response local cache.
+// If the cache is not available, do actual request and record the response to local cache.
 func NewReplayOrFetchRoundTripper(dataDir string, httpClient *http.Client) http.RoundTripper {
 	return newReplayMiddleware(dataDir)(newFetchMiddleware(dataDir, httpClient)(notHandledTripper))
 }
 
+// NewReplayRoundTripper returns new http.RoundTripper that only replays HTTP response from local cache, do not request actually.
 func NewReplayRoundTripper(dataDir string) http.RoundTripper {
 	return newReplayMiddleware(dataDir)(notHandledTripper)
 }
