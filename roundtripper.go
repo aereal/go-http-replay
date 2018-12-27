@@ -19,9 +19,9 @@ func NewReplayRoundTripper(dataDir string) http.RoundTripper {
 	return newReplayMiddleware(dataDir)(notHandledTripper)
 }
 
-func newFetchMiddleware(dataDir string, httpClient *http.Client) Middleware {
-	return Middleware(func(next RoundTripperFunc) RoundTripperFunc {
-		return RoundTripperFunc(func(req *http.Request) (*http.Response, error) {
+func newFetchMiddleware(dataDir string, httpClient *http.Client) roundTripperHandler {
+	return roundTripperHandler(func(next roundTripperFunc) roundTripperFunc {
+		return roundTripperFunc(func(req *http.Request) (*http.Response, error) {
 			resp, err := httpClient.Do(req)
 			if err != nil {
 				return next.RoundTrip(req)
@@ -46,9 +46,9 @@ func newFetchMiddleware(dataDir string, httpClient *http.Client) Middleware {
 	})
 }
 
-func newReplayMiddleware(dataDir string) Middleware {
-	return Middleware(func(next RoundTripperFunc) RoundTripperFunc {
-		return RoundTripperFunc(func(req *http.Request) (*http.Response, error) {
+func newReplayMiddleware(dataDir string) roundTripperHandler {
+	return roundTripperHandler(func(next roundTripperFunc) roundTripperFunc {
+		return roundTripperFunc(func(req *http.Request) (*http.Response, error) {
 			f, err := os.Open(getReplayFilePath(dataDir, req))
 			if err != nil {
 				return next.RoundTrip(req)
