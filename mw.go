@@ -14,6 +14,7 @@ func (f transportFunc) RoundTrip(req *http.Request) (*http.Response, error) {
 }
 
 var notHandledTransport = transportFunc(func(req *http.Request) (*http.Response, error) {
+	err := GetError(req)
 	return &http.Response{
 		Proto:      "HTTP/1.1",
 		ProtoMajor: 1,
@@ -21,5 +22,5 @@ var notHandledTransport = transportFunc(func(req *http.Request) (*http.Response,
 		Body:       ioutil.NopCloser(nil),
 		Header:     make(http.Header),
 		StatusCode: 599,
-	}, nil
+	}, err
 })
