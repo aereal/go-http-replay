@@ -77,7 +77,11 @@ type ctxKey string
 const lastErrorContextKey = ctxKey("last_error")
 
 func getError(ctx context.Context) error {
-	return ctx.Value(lastErrorContextKey).(error)
+	err := ctx.Value(lastErrorContextKey)
+	if err != nil {
+		return err.(error)
+	}
+	return nil
 }
 
 func GetError(req *http.Request) error {
