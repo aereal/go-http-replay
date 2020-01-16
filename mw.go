@@ -3,6 +3,7 @@ package httpreplay
 import (
 	"io/ioutil"
 	"net/http"
+	"strings"
 )
 
 type transportHandler func(h transportFunc) transportFunc
@@ -18,7 +19,7 @@ var notHandledTransport = transportFunc(func(req *http.Request) (*http.Response,
 		Proto:      "HTTP/1.1",
 		ProtoMajor: 1,
 		ProtoMinor: 1,
-		Body:       ioutil.NopCloser(nil),
+		Body:       ioutil.NopCloser(strings.NewReader("")),
 		Header:     make(http.Header),
 		StatusCode: 599,
 	}, nil
