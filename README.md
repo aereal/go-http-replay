@@ -1,5 +1,5 @@
 ![Build Status](https://github.com/aereal/go-http-replay/workflows/CI/badge.svg)
-[![MIT License](http://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)][license]
+[![MIT License](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)][license]
 [![GoDoc](https://godoc.org/github.com/aereal/go-http-replay?status.svg)][godoc]
 
 # go-http-replay
