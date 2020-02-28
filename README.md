@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/aereal/go-http-replay.png?branch=master)][travis]
+![Build Status](https://github.com/aereal/go-http-replay/workflows/CI/badge.svg)
 [![MIT License](http://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)][license]
 [![GoDoc](https://godoc.org/github.com/aereal/go-http-replay?status.svg)][godoc]
 
@@ -52,6 +52,5 @@ func Test_http_lib(t *testing.T) {
 
 - aereal
 
-[travis]: https://travis-ci.org/aereal/go-http-replay
 [license]: https://github.com/aereal/go-http-replay/blob/master/LICENSE
 [godoc]: https://godoc.org/github.com/aereal/go-http-replay
