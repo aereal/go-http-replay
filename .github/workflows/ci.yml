@@ -32,4 +32,4 @@ jobs:
           go get -v all
       - name: test
         run: |
-          go test -race -cover ./...
+          go test -race -cover
