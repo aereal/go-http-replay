@@ -3,6 +3,7 @@ package httpreplay
 import (
 	"io"
 	"net/http"
+	"path/filepath"
 	"testing"
 )
 
@@ -20,7 +21,7 @@ func Test_getReplayFilePath(t *testing.T) {
 				dataDir: "testdata",
 				req:     newRequest(t, http.MethodGet, "http://example.com/", nil),
 			},
-			expected: "testdata/GET---http%3A%2F%2Fexample.com%2F",
+			expected: filepath.Join("testdata", "GET---http%3A%2F%2Fexample.com%2F"),
 		},
 	}
 
