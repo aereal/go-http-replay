@@ -8,8 +8,6 @@ on:
       - master
 jobs:
   test:
-    env:
-      GO111MODULE: on
     strategy:
       matrix:
         go_version:
