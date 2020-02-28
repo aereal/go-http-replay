@@ -27,9 +27,6 @@ jobs:
       - uses: actions/setup-go@v1
         with:
           go-version: ${{ matrix.go_version }}
-      - name: install
-        run: |
-          go get -v all
       - name: test
         run: |
           go test -race -cover
