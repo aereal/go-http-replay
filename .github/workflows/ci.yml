@@ -1,0 +1,35 @@
+---
+
+name: CI
+on:
+  pull_request:
+  push:
+    branches:
+      - master
+jobs:
+  test:
+    env:
+      GO111MODULE: on
+    strategy:
+      matrix:
+        go_version:
+          - "1.11.x"
+          - "1.12.x"
+          - "1.13.x"
+          - "1.14.x"
+        os:
+          - windows-latest
+          - ubuntu-latest
+          - macOS-latest
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-go@v1
+        with:
+          go-version: ${{ matrix.go_version }}
+      - name: install
+        run: |
+          go get -v all
+      - name: test
+        run: |
+          go test -race -cover ./...
