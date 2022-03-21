@@ -1,6 +1,6 @@
-![Build Status](https://github.com/aereal/go-http-replay/workflows/CI/badge.svg)
+[![Build Status][ci-status-badge]][ci-status]
 [![MIT License](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)][license]
-[![GoDoc](https://godoc.org/github.com/aereal/go-http-replay?status.svg)][godoc]
+[![GoDoc][godoc-badge]][godoc]
 
 # go-http-replay
 
@@ -52,5 +52,8 @@ func Test_http_lib(t *testing.T) {
 
 - aereal
 
-[license]: https://github.com/aereal/go-http-replay/blob/master/LICENSE
-[godoc]: https://godoc.org/github.com/aereal/go-http-replay
+[license]: https://github.com/aereal/go-http-replay/blob/main/LICENSE
+[godoc]: https://pkg.go.dev/github.com/aereal/go-http-replay
+[godoc-badge]: https://pkg.go.dev/badge/aereal/go-http-replay
+[ci-status]: https://github.com/aereal/go-http-replay/actions/workflows/CI
+[ci-status-badge]: https://github.com/aereal/go-http-replay/workflows/CI/badge.svg
