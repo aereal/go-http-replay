@@ -52,5 +52,5 @@ func Test_http_lib(t *testing.T) {
 
 - aereal
 
-[license]: https://github.com/aereal/go-http-replay/blob/master/LICENSE
+[license]: https://github.com/aereal/go-http-replay/blob/main/LICENSE
 [godoc]: https://godoc.org/github.com/aereal/go-http-replay
