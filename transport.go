@@ -57,7 +57,7 @@ func newReplayHandler(dataDir string) transportHandler {
 			if err != nil {
 				return next.RoundTrip(req)
 			}
-			resp, err := http.ReadResponse(bufio.NewReader(f), nil)
+			resp, err := http.ReadResponse(bufio.NewReader(f), req)
 			if err != nil {
 				return next.RoundTrip(req)
 			}
