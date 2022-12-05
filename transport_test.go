@@ -58,4 +58,10 @@ func TestNewReplayHandler(t *testing.T) {
 	if resp.StatusCode != http.StatusOK {
 		t.Errorf("status code=%d", resp.StatusCode)
 	}
+	if resp.Request == nil {
+		t.Fatalf("incoming request not filled")
+	}
+	if resp.Request.URL.String() != req.URL.String() {
+		t.Errorf("request URI mismatch")
+	}
 }
