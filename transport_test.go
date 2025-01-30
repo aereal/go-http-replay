@@ -10,8 +10,8 @@ import (
 
 func Test_getReplayFilePath(t *testing.T) {
 	type args struct {
-		dataDir string
 		req     *http.Request
+		dataDir string
 	}
 	testcases := []struct {
 		given    args
