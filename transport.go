@@ -43,7 +43,7 @@ func newFetchHandler(dataDir string, httpClient *http.Client) transportHandler {
 				return next.RoundTrip(withError(req, err))
 			}
 			buf := bytes.NewBuffer(dump)
-			if _, err := buf.WriteTo(f); err != nil {
+			if _, err := buf.WriteTo(f); err != nil { //nolint:govet
 				return next.RoundTrip(withError(req, err))
 			}
 			return resp, err
