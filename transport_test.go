@@ -35,6 +35,7 @@ func Test_getReplayFilePath(t *testing.T) {
 }
 
 func newRequest(t *testing.T, method string, url string, body io.Reader) *http.Request {
+	t.Helper()
 	req, err := http.NewRequest(method, url, body)
 	if err != nil {
 		t.Fatal(err)
