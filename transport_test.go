@@ -55,6 +55,7 @@ func TestNewReplayHandler(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
+	defer resp.Body.Close()
 	if resp.StatusCode != http.StatusOK {
 		t.Errorf("status code=%d", resp.StatusCode)
 	}
