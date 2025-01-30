@@ -7,6 +7,13 @@ on:
     branches:
       - main
 jobs:
+  ok:
+    if: failure()
+    runs-on: ubuntu-latest
+    needs:
+      - test
+    steps:
+      - run: exit 1
   test:
     strategy:
       matrix:
