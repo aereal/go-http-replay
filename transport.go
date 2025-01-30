@@ -5,12 +5,11 @@ import (
 	"bufio"
 	"bytes"
 	"context"
-	"fmt"
 	"net/http"
 	"net/http/httputil"
-	"net/url"
 	"os"
-	"path/filepath"
+
+	"github.com/aereal/go-http-replay/internal/utils"
 )
 
 // NewReplayOrFetchTransport returns new http.RoundTripper that replays HTTP response local cache.
@@ -33,7 +32,7 @@ func newFetchHandler(dataDir string, httpClient *http.Client) transportHandler {
 			}
 			defer resp.Body.Close()
 
-			path := getReplayFilePath(dataDir, req)
+			path := utils.BuildReplayFilePath(dataDir, req)
 			f, err := os.OpenFile(path, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
 			if err != nil {
 				return next.RoundTrip(withError(req, err))
@@ -43,7 +42,7 @@ func newFetchHandler(dataDir string, httpClient *http.Client) transportHandler {
 				return next.RoundTrip(withError(req, err))
 			}
 			buf := bytes.NewBuffer(dump)
-			if _, err := buf.WriteTo(f); err != nil {
+			if _, err := buf.WriteTo(f); err != nil { //nolint:govet
 				return next.RoundTrip(withError(req, err))
 			}
 			return resp, err
@@ -54,7 +53,7 @@ func newFetchHandler(dataDir string, httpClient *http.Client) transportHandler {
 func newReplayHandler(dataDir string) transportHandler {
 	return transportHandler(func(next transportFunc) transportFunc {
 		return transportFunc(func(req *http.Request) (*http.Response, error) {
-			f, err := os.Open(getReplayFilePath(dataDir, req))
+			f, err := os.Open(utils.BuildReplayFilePath(dataDir, req))
 			if err != nil {
 				return next.RoundTrip(withError(req, err))
 			}
@@ -65,11 +64,6 @@ func newReplayHandler(dataDir string) transportHandler {
 			return resp, nil
 		})
 	})
-}
-
-func getReplayFilePath(dataDir string, req *http.Request) string {
-	baseName := url.QueryEscape(req.URL.String())
-	return filepath.Join(dataDir, fmt.Sprintf("%s---%s", req.Method, baseName))
 }
 
 type errCtxKey struct{}
