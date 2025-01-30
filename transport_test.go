@@ -1,9 +1,11 @@
-package httpreplay
+package httpreplay_test
 
 import (
 	"context"
 	"net/http"
 	"testing"
+
+	httpreplay "github.com/aereal/go-http-replay"
 )
 
 func TestNewReplayHandler(t *testing.T) {
@@ -13,7 +15,7 @@ func TestNewReplayHandler(t *testing.T) {
 		t.Fatal(err)
 	}
 	client := &http.Client{
-		Transport: NewReplayTransport("./testdata"),
+		Transport: httpreplay.NewReplayTransport("./testdata"),
 	}
 	resp, err := client.Do(req)
 	if err != nil {
