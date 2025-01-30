@@ -29,4 +29,6 @@ jobs:
           cache: true
       - name: test
         run: |
-          go test -race -cover
+          go test -v -race -coverprofile=cover.out ./...
+      - uses: k1LoW/octocov-action@1ad702b3118b6a055c00b01db68ca0d9f6641dbc # v1.4.0
+        if: ${{ matrix.go_version == 'stable' }}
