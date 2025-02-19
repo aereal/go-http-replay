@@ -19,9 +19,14 @@ jobs:
           - stable
           - oldstable
     runs-on: ubuntu-24.04
+    permissions:
+      actions: read
+      contents: read
+      pull-requests: write
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
       - uses: actions/setup-go@f111f3307d8850f501ac008e886eec1fd1932a34 # v5.3.0
+        id: setup-go
         with:
           go-version: ${{ matrix.go_version }}
           cache: true
@@ -30,9 +35,28 @@ jobs:
           go test -v -race -coverprofile=cover.out ./...
       - uses: k1LoW/octocov-action@1ad702b3118b6a055c00b01db68ca0d9f6641dbc # v1.4.0
         if: ${{ matrix.go_version == 'stable' }}
-      - name: lint
-        uses: reviewdog/action-golangci-lint@dd3fda91790ca90e75049e5c767509dc0ec7d99b # v2.7.0
-        if: ${{ matrix.go_version == 'stable' }}
+      - uses: aquaproj/aqua-installer@e2d0136abcf70b7a2f6f505720640750557c4b33 # v3.1.1
         with:
-          fail_level: warning
-          filter_mode: nofilter
+          aqua_version: v2.43.3
+      - run: aqua install
+      - name: golangci-lint
+        env:
+          _go_version: ${{ steps.setup-go.outputs.go-version }}
+        run: |
+          golangci-lint run \
+            --go "$_go_version" \
+            --out-format line-number \
+            --issues-exit-code 0 \
+            --config .golangci.yml \
+            1>lint-stdout.txt 2>/dev/stderr
+      - name: reviewdog
+        env:
+          REVIEWDOG_GITHUB_API_TOKEN: ${{ github.token }}
+        run: |
+          reviewdog \
+            -name golangci-lint \
+            -f golangci-lint \
+            -filter-mode nofilter \
+            -reporter github-pr-check \
+            -fail-level warning \
+            < lint-stdout.txt
