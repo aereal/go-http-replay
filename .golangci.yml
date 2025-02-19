@@ -26,12 +26,12 @@ linters:
     - protogetter
     - reassign
     - staticcheck
-    - tenv
     - testableexamples
     - testpackage
     - thelper
     - tparallel
     - unused
+    - usetesting
 linters-settings:
   errcheck:
     check-type-assertions: true
