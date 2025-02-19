@@ -1,0 +1,6 @@
+[tagpr]
+	vPrefix = true
+	releaseBranch = main
+	versionFile = version.txt
+	release = true
+	commitPrefix = "chore(tagpr): "

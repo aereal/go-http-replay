@@ -1,0 +1,7 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/aquaproj/aqua/main/json-schema/policy.json
+registries:
+  - type: standard
+    ref: semver(">= 3.0.0")
+packages:
+  - registry: standard
