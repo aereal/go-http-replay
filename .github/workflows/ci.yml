@@ -8,11 +8,11 @@ jobs:
     if: failure()
     runs-on: ubuntu-24.04
     needs:
-      - test
-      - lint
+      - test-lint
     steps:
       - run: exit 1
-  test:
+  test-lint:
+    name: test and lint
     strategy:
       matrix:
         go_version:
@@ -30,12 +30,9 @@ jobs:
           go test -v -race -coverprofile=cover.out ./...
       - uses: k1LoW/octocov-action@1ad702b3118b6a055c00b01db68ca0d9f6641dbc # v1.4.0
         if: ${{ matrix.go_version == 'stable' }}
-  lint:
-    runs-on: ubuntu-24.04
-    steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
       - name: lint
         uses: reviewdog/action-golangci-lint@dd3fda91790ca90e75049e5c767509dc0ec7d99b # v2.7.0
+        if: ${{ matrix.go_version == 'stable' }}
         with:
           fail_level: warning
           filter_mode: nofilter
