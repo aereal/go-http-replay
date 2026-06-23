@@ -35,7 +35,7 @@ jobs:
           go test -v -race -coverprofile=cover.out ./...
       - uses: k1LoW/octocov-action@1ad702b3118b6a055c00b01db68ca0d9f6641dbc # v1.4.0
         if: ${{ matrix.go_version == 'stable' }}
-      - uses: aquaproj/aqua-installer@5e54e5cee8a95ee2ce7c04cb993da6dfad13e59c # v3.1.2
+      - uses: aquaproj/aqua-installer@96a9bc20066c5bf5e275b41019cfc165b25f4e2e # v4.0.5
         with:
           aqua_version: v2.43.3
       - run: aqua install
