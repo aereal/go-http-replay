@@ -33,7 +33,7 @@ jobs:
       - name: test
         run: |
           go test -v -race -coverprofile=cover.out ./...
-      - uses: k1LoW/octocov-action@1ad702b3118b6a055c00b01db68ca0d9f6641dbc # v1.4.0
+      - uses: k1LoW/octocov-action@a167dc0dee441b7ffc45e1b862ab55ec0d87f278 # v1.5.2
         if: ${{ matrix.go_version == 'stable' }}
       - uses: aquaproj/aqua-installer@5e54e5cee8a95ee2ce7c04cb993da6dfad13e59c # v3.1.2
         with:
