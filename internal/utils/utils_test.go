@@ -11,6 +11,8 @@ import (
 )
 
 func Test_getReplayFilePath(t *testing.T) {
+	t.Parallel()
+
 	type args struct {
 		req     *http.Request
 		dataDir string
