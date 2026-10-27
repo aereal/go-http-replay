@@ -6,7 +6,7 @@ on:
 jobs:
   ok:
     if: failure()
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-slim
     needs:
       - test-lint
     steps:
@@ -18,7 +18,7 @@ jobs:
         go_version:
           - stable
           - oldstable
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     permissions:
       actions: read
       contents: read
