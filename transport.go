@@ -26,14 +26,14 @@ func NewReplayTransport(dataDir string) http.RoundTripper {
 func newFetchHandler(dataDir string, httpClient *http.Client) transportHandler {
 	return transportHandler(func(next transportFunc) transportFunc {
 		return transportFunc(func(req *http.Request) (*http.Response, error) {
-			resp, err := httpClient.Do(req)
+			resp, err := httpClient.Do(req) //nolint:gosec // for only test use
 			if err != nil {
 				return next.RoundTrip(withError(req, err))
 			}
-			defer resp.Body.Close()
+			defer func() { _ = resp.Body.Close() }()
 
 			path := utils.BuildReplayFilePath(dataDir, req)
-			f, err := os.OpenFile(path, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
+			f, err := os.OpenFile(path, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644) //nolint:gosec // for backward compatibility
 			if err != nil {
 				return next.RoundTrip(withError(req, err))
 			}
@@ -53,7 +53,7 @@ func newFetchHandler(dataDir string, httpClient *http.Client) transportHandler {
 func newReplayHandler(dataDir string) transportHandler {
 	return transportHandler(func(next transportFunc) transportFunc {
 		return transportFunc(func(req *http.Request) (*http.Response, error) {
-			f, err := os.Open(utils.BuildReplayFilePath(dataDir, req))
+			f, err := os.Open(utils.BuildReplayFilePath(dataDir, req)) //nolint:gosec // for only test use
 			if err != nil {
 				return next.RoundTrip(withError(req, err))
 			}

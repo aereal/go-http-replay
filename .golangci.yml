@@ -1,86 +1,129 @@
----
+version: "2"
+issues:
+  max-issues-per-linter: 0
+  max-same-issues: 0
+  uniq-by-line: false
+output:
+  sort-order:
+    - file
+    - linter
+    - severity
+  show-stats: false
+  formats:
+    text:
+      path: stdout
+    sarif:
+      path: golangci-lint.sarif
+run:
+  timeout: 30s
+  relative-path-mode: gomod
+  modules-download-mode: readonly
+  allow-parallel-runners: true
 linters:
-  disable-all: true
+  default: none
+  exclusions:
+    warn-unused: true
+    generated: lax
   enable:
     - asasalint
     - asciicheck
     - bidichk
     - bodyclose
+    - canonicalheader
+    - containedctx
     - contextcheck
     - durationcheck
+    - embeddedstructfieldcheck
     - err113
     - errcheck
     - errchkjson
     - errname
-    - errorlint
     - exhaustive
+    - exhaustruct_v5
+    - forcetypeassert
     - gocheckcompilerdirectives
-    - gochecksumtype
+    - gochecknoinits
+    - gocritic
+    - godoclint
+    - godox
+    - goprintffuncname
     - gosec
-    - gosimple
     - govet
+    - iface
     - ineffassign
-    - makezero
+    - interfacebloat
+    - iotamixing
+    - mirror
+    - modernize
+    - nestif
     - nilerr
+    - nilnesserr
+    - nilnil
     - noctx
-    - protogetter
+    - nolintlint
+    - nonamedreturns
+    - nosprintfhostport
+    - paralleltest
+    - perfsprint
+    - prealloc
     - reassign
+    - recvcheck
+    - sloglint
     - staticcheck
-    - testableexamples
     - testpackage
     - thelper
     - tparallel
+    - unconvert
+    - unparam
     - unused
-    - usetesting
-linters-settings:
-  errcheck:
-    check-type-assertions: true
-    check-blank: true
-  errorlint:
-    errorf: true
-    errorf-multi: true
-    asserts: true
-    comparison: true
-  govet:
-    disable-all: true
-    enable:
-      - appends
-      - asmdecl
-      - assign
-      - atomic
-      - atomicalign
-      - bools
-      - buildtag
-      - cgocall
-      - composites
-      - copylocks
-      - deepequalerrors
-      - defers
-      - directive
-      - errorsas
-      - fieldalignment
-      - findcall
-      - framepointer
-      - httpresponse
-      - ifaceassert
-      - loopclosure
-      - lostcancel
-      - nilfunc
-      - nilness
-      - printf
-      - reflectvaluecompare
-      - shadow
-      - shift
-      - sigchanyzer
-      - slog
-      - sortslice
-      - stdmethods
-      - stringintconv
-      - structtag
-      - testinggoroutine
-      - tests
-      - unmarshal
-      - unreachable
-      - unsafeptr
-      - unusedresult
-      - unusedwrite
+  settings:
+    errcheck:
+      check-type-assertions: true
+    govet:
+      disable-all: true
+      enable:
+        - appends
+        - assign
+        - atomic
+        - atomicalign
+        - bools
+        - buildtag
+        - cgocall
+        - composites
+        - copylocks
+        - deepequalerrors
+        - defers
+        - directive
+        - errorsas
+        - fieldalignment
+        - findcall
+        - framepointer
+        - hostport
+        - httpmux
+        - httpresponse
+        - ifaceassert
+        - inline
+        - loopclosure
+        - lostcancel
+        - nilfunc
+        - nilness
+        - printf
+        - reflectvaluecompare
+        - shadow
+        - shift
+        - sigchanyzer
+        - slog
+        - sortslice
+        - stdmethods
+        - stdversion
+        - stringintconv
+        - structtag
+        - testinggoroutine
+        - tests
+        - timeformat
+        - unmarshal
+        - unreachable
+        - unsafeptr
+        - unusedresult
+        - unusedwrite
+        - waitgroup
