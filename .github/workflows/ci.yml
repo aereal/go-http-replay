@@ -8,6 +8,7 @@ jobs:
     if: failure()
     runs-on: ubuntu-slim
     permissions: {}
+    timeout-minutes: 1
     needs:
       - test-lint
     steps:
@@ -20,6 +21,7 @@ jobs:
           - stable
           - oldstable
     runs-on: ubuntu-26.04
+    timeout-minutes: 15
     permissions:
       actions: read
       contents: read
