@@ -1,7 +1,6 @@
 package utils_test
 
 import (
-	"context"
 	"io"
 	"net/http"
 	"path/filepath"
@@ -24,7 +23,7 @@ func Test_getReplayFilePath(t *testing.T) {
 		{
 			given: args{
 				dataDir: "testdata",
-				req:     newRequest(t, context.Background(), http.MethodGet, "http://example.com/", nil),
+				req:     newRequest(t, http.MethodGet, "http://example.com/", nil),
 			},
 			expected: filepath.Join("testdata", "GET---http%3A%2F%2Fexample.com%2F"),
 		},
@@ -38,9 +37,9 @@ func Test_getReplayFilePath(t *testing.T) {
 	}
 }
 
-func newRequest(t *testing.T, ctx context.Context, method string, url string, body io.Reader) *http.Request {
+func newRequest(t *testing.T, method string, url string, body io.Reader) *http.Request {
 	t.Helper()
-	req, err := http.NewRequestWithContext(ctx, method, url, body)
+	req, err := http.NewRequestWithContext(t.Context(), method, url, body)
 	if err != nil {
 		t.Fatal(err)
 	}

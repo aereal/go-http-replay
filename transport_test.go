@@ -1,7 +1,6 @@
 package httpreplay_test
 
 import (
-	"context"
 	"net/http"
 	"testing"
 	"time"
@@ -11,8 +10,7 @@ import (
 
 func TestNewReplayHandler(t *testing.T) {
 	t.Parallel()
-	ctx := context.Background()
-	req, err := http.NewRequestWithContext(ctx, http.MethodGet, "https://aereal.org/", nil)
+	req, err := http.NewRequestWithContext(t.Context(), http.MethodGet, "https://aereal.org/", nil)
 	if err != nil {
 		t.Fatal(err)
 	}
