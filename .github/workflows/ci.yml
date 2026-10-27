@@ -23,6 +23,7 @@ jobs:
       actions: read
       contents: read
       pull-requests: write
+      security-events: write
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
@@ -40,23 +41,14 @@ jobs:
           aqua_version: v2.65.2
       - run: aqua install
       - name: golangci-lint
-        env:
-          _go_version: ${{ steps.setup-go.outputs.go-version }}
-        run: |
-          golangci-lint run \
-            --go "$_go_version" \
-            --out-format line-number \
-            --issues-exit-code 0 \
-            --config .golangci.yml \
-            1>lint-stdout.txt 2>/dev/stderr
-      - name: reviewdog
-        env:
-          REVIEWDOG_GITHUB_API_TOKEN: ${{ github.token }}
-        run: |
-          reviewdog \
-            -name golangci-lint \
-            -f golangci-lint \
-            -filter-mode nofilter \
-            -reporter github-pr-check \
-            -fail-level warning \
-            < lint-stdout.txt
+        id: lint
+        run: golangci-lint run --timeout=5m ./...
+        continue-on-error: true
+      - uses: github/codeql-action/upload-sarif@9b3254085494b55a0f7c4c2b3d2d52cc712ce370 # v4.39.1
+        if: ${{ matrix.go_version == 'stable' }}
+        with:
+          sarif_file: golangci-lint.sarif
+          category: golangci-lint
+      - name: report issues
+        if: steps.lint.outcome == 'failure'
+        run: exit 1

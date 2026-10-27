@@ -9,6 +9,11 @@ output:
     - linter
     - severity
   show-stats: false
+  formats:
+    text:
+      path: stdout
+    sarif:
+      path: golangci-lint.sarif
 run:
   timeout: 30s
   relative-path-mode: gomod
